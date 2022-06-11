@@ -2,6 +2,9 @@ import 'package:smart_admin_dashboard/core/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../dashboard/listActividades.dart';
+import '../../dashboard/listUsuarios.dart';
+
 class SideMenu extends StatelessWidget {
   const SideMenu({
     Key? key,
@@ -40,6 +43,26 @@ class SideMenu extends StatelessWidget {
               title: "Posts",
               svgSrc: "assets/icons/menu_tran.svg",
               press: () {},
+            ),
+            DrawerListTile(
+              title: "Lista de actividades por usuarios",
+              svgSrc: "assets/icons/menu_user.svg",
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => listActividades()),
+                );
+              },
+            ),
+            DrawerListTile(
+              title: "Lista de usuarios",
+              svgSrc: "assets/icons/menu_user.svg",
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => listUsuarios()),
+                );
+              },
             ),
             DrawerListTile(
               title: "Pages",

@@ -3,8 +3,11 @@ import 'package:smart_admin_dashboard/core/widgets/app_button_widget.dart';
 import 'package:smart_admin_dashboard/core/widgets/input_widget.dart';
 import 'package:smart_admin_dashboard/screens/home/home_screen.dart';
 import 'package:smart_admin_dashboard/screens/login/components/slider_widget.dart';
-
 import 'package:flutter/material.dart';
+import '../../controllers/controller_user.dart';
+
+TextEditingController _userController = TextEditingController();
+TextEditingController _passwordController = TextEditingController();
 
 class Login extends StatefulWidget {
   Login({required this.title});
@@ -22,8 +25,11 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
 
   var _isMoved = false;
-
+  bool validateUser = false;
   bool isChecked = false;
+
+  void validateUserName() async {}
+
   @override
   void initState() {
     super.initState();
@@ -40,6 +46,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
+  UserController userController = UserController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,8 +170,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
             InputWidget(
               keyboardType: TextInputType.emailAddress,
               onSaved: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
+                _userController.text = value!;
               },
               onChanged: (String? value) {
                 // This optional block of code can be used to run
@@ -186,7 +192,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               topLabel: "Password",
               obscureText: true,
               hintText: "Enter Password",
-              onSaved: (String? uPassword) {},
+              onSaved: (String? uPassword) {
+                _passwordController.text = uPassword!;
+              },
               onChanged: (String? value) {},
               validator: (String? value) {},
             ),
@@ -270,13 +278,9 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
           children: [
             InputWidget(
               keyboardType: TextInputType.emailAddress,
-              onSaved: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
-              },
+              onSaved: (String? value) {},
               onChanged: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
+                _userController.text = value!;
               },
               validator: (String? value) {
                 return (value != null && value.contains('@'))
@@ -295,18 +299,42 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin {
               obscureText: true,
               hintText: "Enter Password",
               onSaved: (String? uPassword) {},
-              onChanged: (String? value) {},
+              onChanged: (String? value) {
+                _passwordController.text = value!;
+              },
               validator: (String? value) {},
             ),
             SizedBox(height: 24.0),
             AppButton(
               type: ButtonType.PRIMARY,
               text: "Sign In",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                );
+              onPressed: () async {
+                bool validate = await userController.validateUser(
+                    _userController.text, _passwordController.text);
+
+                if (validate) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                } else {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Error"),
+                          content: Text("Invalid User Name or Password"),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text("OK"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      });
+                }
               },
             ),
             SizedBox(height: 24.0),

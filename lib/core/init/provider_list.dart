@@ -12,12 +12,6 @@ class ApplicationProvider {
   ApplicationProvider._init();
 
   List<SingleChildWidget> singleItems = [];
-  List<SingleChildWidget> dependItems = [
-    //ChangeNotifierProvider(
-    //  create: (_) => MenuController(),
-    //),
-
-//    Provider.value(value: NavigationService.instance)
-  ];
+  List<SingleChildWidget> dependItems = [];
   List<SingleChildWidget> uiChangesItems = [];
 }

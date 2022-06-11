@@ -7,6 +7,7 @@ import 'package:smart_admin_dashboard/screens/dashboard/components/recent_forums
 import 'package:smart_admin_dashboard/screens/dashboard/components/recent_users.dart';
 import 'package:smart_admin_dashboard/screens/dashboard/components/user_details_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_admin_dashboard/screens/dashboard/listActividades.dart';
 
 import 'components/header.dart';
 
@@ -33,6 +34,7 @@ class DashboardScreen extends StatelessWidget {
                       children: [
                         //MyFiels(),
                         //SizedBox(height: defaultPadding),
+
                         RecentUsers(),
                         SizedBox(height: defaultPadding),
                         RecentDiscussions(),
